@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-License-Identifier: MPL-2.0
+    Copyright (c) 2024 Philipp Le <philipp@philipple.de>.
+  This Source Code Form is subject to the terms of the Mozilla Public
+  License, v. 2.0. If a copy of the MPL was not distributed with this
+  file, You can obtain one at https://mozilla.org/MPL/2.0/.
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -12,15 +19,64 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ScreenLock"
         tools:targetApi="31">
+        <!--
+        The LockActivity is started from the launcher icon.
+        If the Accessibility Service is activated, the screen is locked. If not,
+        the SetupAccessibilityServiceFragment is shown.
+        -->
         <activity
-            android:name=".MainActivity"
+            android:name=".LockActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity>
+        <!--
+        The SettingsActivity is invoked on explicit user request by either long
+        tapping the tile or selecting the Settings Shortcut on the launcher icon.
+        The activity shows the SetupAccessibilityServiceFragment.
+        -->
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+            </intent-filter>
+        </activity>
+        <!--
+        The user might add a Quick Settings Tile to access the screen lock
+        quickly. This service manages the tile. The tap events either locks
+        the screen, if the Accessibility Service is activated, or prompts the
+        user to go the Android Accessibility Service Settings, if the service
+        is deactivated.
+        -->
+        <service
+            android:name=".LockQSTile"
+            android:label="@string/tile_title"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+        <!--
+        This service is started by the Android system as an Accessibility
+        Service. Accessibility Services have the permission to lock the screen
+        on user's behalf.
+        -->
+        <service android:name=".LockAccessibilityService"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:label="@string/app_name"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>
