@@ -1,3 +1,24 @@
+<!--
+  SPDX-License-Identifier: MPL-2.0
+    Copyright (c) 2024 Philipp Le <philipp@philipple.de>.
+  This Source Code Form is subject to the terms of the Mozilla Public
+  License, v. 2.0. If a copy of the MPL was not distributed with this
+  file, You can obtain one at https://mozilla.org/MPL/2.0/.
+-->
 <resources>
     <string name="app_name">Screen Lock</string>
+    <string name="accessibility_service_permissions_info">The app must be activated as an Accessibility Service to lock the device screen. The service can be later deactivated in Android Accessibility Settings.</string>
+    <string name="fragment_setup_accessibility_button">Setup Accessibility Service</string>
+    <string name="fragment_setup_admin_copyright">
+    Copyright © 2024 Philipp Le.
+
+  This Executable Form is subject to the terms of the Mozilla Public
+  License, v. 2.0. If a copy of the MPL was not distributed with this
+  file, You can obtain one at https://mozilla.org/MPL/2.0/.
+    </string>
+    <string name="tile_title">Lock Screen</string>
+    <string name="no_service_alert_dialog_title">Setup Lock Screen Accessibility Service</string>
+    <string name="no_service_alert_dialog_positive_button">Show Settings</string>
+    <string name="no_service_alert_dialog_negative_button">Cancel</string>
+    <string name="shortcut_settings_title">Lock Screen Settings</string>
 </resources>
